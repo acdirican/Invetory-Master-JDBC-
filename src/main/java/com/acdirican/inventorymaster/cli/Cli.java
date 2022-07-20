@@ -14,7 +14,8 @@ import com.acdirican.inventorymaster.entities.Product;
  *
  */
 public class Cli {
-		
+	
+	private static final String HELP = "help";
 	private static final String EXIT = "exit";
 	private static final String LIST = "list";
 	private static final String LISTMORETHEN = "list_morethan";
@@ -30,6 +31,7 @@ public class Cli {
 	
 	private static final String ERROR = "ERROR: ";
 	private static final String DBERROR = ERROR + " DB connection or query error!";
+	
 	
 	
 	
@@ -59,7 +61,7 @@ public class Cli {
 			cmd = scanner.nextLine();
 			System.out.println();
 			output = execute(cmd.trim().toLowerCase());
-			System.out.println("->" + output);
+			System.out.println(output);
 			System.out.println();
 		} while(!cmd.equals(EXIT));
 		db.close();
@@ -112,12 +114,32 @@ public class Cli {
 				return metadata();
 			}
 			
+			case HELP: {
+				return help();
+			}
 			case EXIT:
 				return "bye bye";
 				
 			default:
 				return ERROR  + "Unknown command!";
 		}
+	}
+
+	private String help() {
+		return "List of Commands:\n" 
+				+ "help\n"
+				+ "exit \n"
+				+ "list\n"
+				+ "list_morethan <QUANTITY> \n"
+				+ "list_lessthan <QUANTITY>\n"
+				+ "list_equals <QUANTITY>\n"
+				+ "list_depleteds \n"
+				+ "find <NAME>\n"
+				+ "update <ID>\n"
+				+ "fetch <INDEX>\n"
+				+ "add\n"
+				+ "delete <ID>\n"
+				+ "meta";
 	}
 
 	/*
