@@ -1,6 +1,7 @@
 package com.acdirican.inventorymaster.cli;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,7 +27,10 @@ public class Cli {
 	private static final String UPDATE = "update";
 	private static final String FETCH = "fetch";
 	private static final String ADD = "add";
+
 	private static final String DELETE = "delete";
+	private static final String DELETE_ALL = "delete_all"
+			;
 	private static final String META = "meta";
 	
 	private static final String ERROR = "ERROR: ";
@@ -106,6 +110,10 @@ public class Cli {
 				return delete(parameters);
 			}
 			
+			case DELETE_ALL: {
+				return delete_all(parameters);
+			}
+			
 			case UPDATE: {
 				return update(parameters);
 			}
@@ -123,6 +131,42 @@ public class Cli {
 			default:
 				return ERROR  + "Unknown command!";
 		}
+	}
+
+	private String delete_all(String[] parameters) {
+		if (!confirm("Are you sure to delete all the product with the given IDs? [y/n]")) {
+			return "Delete cancelled";
+		}
+		
+		List<Integer> id_list = new ArrayList<>();
+		for (int i = 1; i < parameters.length; i++) {
+			int ID = Integer.parseInt(parameters[i]);
+			id_list.add(ID);
+		}
+		
+		if (id_list.size()==0) {
+			return "No product ID for deletion!";
+		}
+		
+		try {
+			
+			int result = db.deleteAll(id_list);
+			if (result == id_list.size()) {
+				return "All products deleted succesfull.";
+			}
+			else if (result>0){
+				return "Products partially deleted.";
+			}
+			else {
+				return "No product deleted.";
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return DBERROR;
+		}
+		
+
 	}
 
 	private String help() {

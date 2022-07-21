@@ -1,0 +1,4 @@
+com\acdirican\inventorymaster\db\DB.class
+com\acdirican\inventorymaster\cli\Cli.class
+com\acdirican\inventorymaster\entities\Product.class
+com\acdirican\inventorymaster\Main.class

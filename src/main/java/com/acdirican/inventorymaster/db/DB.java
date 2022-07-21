@@ -3,7 +3,6 @@ package com.acdirican.inventorymaster.db;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +10,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -29,6 +27,7 @@ public class DB {
 
 	public void connect() throws SQLException {
 		this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventorymaster_db", "root", "");
+		this.connection.setAutoCommit(true);
 	}
 
 	public void close() {
@@ -45,13 +44,10 @@ public class DB {
 		Statement statement = connection.createStatement();
 
 		ResultSet rs = statement.executeQuery("select * from products");
-
 		List<Product> list = new ArrayList<>();
-
 		while (rs.next()) {
 			list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3)));
 		}
-
 		return list;
 
 	}
@@ -89,11 +85,9 @@ public class DB {
 	}
 
 	public boolean add(Product product) throws SQLException {
-		String SQL = "Insert Into products Values(NULL, " + "'" + product.getName() + "', " + product.getQuantity()
-				+ ")";
+		String SQL = "Insert Into products Values(NULL, " + "'" + product.getName() + "', " + product.getQuantity() + ")";
 		Statement statement = connection.createStatement();
 		int numOfAffectedRows = statement.executeUpdate(SQL);
-
 		return numOfAffectedRows > 0;
 	}
 
@@ -205,5 +199,25 @@ public class DB {
 			list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3)));
 		}
 		return list;
+	}
+
+	public int deleteAll(List<Integer> id_list) throws SQLException {
+		if (id_list.size() == 0) {
+			return -1;
+		}
+		
+		Statement statement = connection.createStatement();
+		
+		for (Integer ID : id_list) {
+			String SQL = "delete from products where ID = " + ID;
+			statement.addBatch(SQL);
+		}
+		int[] numberOfAffectedRows = statement.executeBatch();
+		
+		int sum = 0;
+		for (int r : numberOfAffectedRows) {
+			sum += r;
+		}
+		return sum;
 	}
 }
