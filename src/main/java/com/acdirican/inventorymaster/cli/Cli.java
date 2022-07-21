@@ -183,6 +183,7 @@ public class Cli {
 				+ "fetch <INDEX>\n"
 				+ "add\n"
 				+ "delete <ID>\n"
+				+ "delete_all <ID>+\n"
 				+ "meta";
 	}
 
