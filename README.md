@@ -21,5 +21,6 @@ List of Commands:
   <li>fetch [INDEX] </li>
   <li>add</li>
   <li>delete [ID] </li>
-   <li>meta</li>
+  <li>delete_all [ID]+ </li>
+  <li>meta</li>
 </ul>
