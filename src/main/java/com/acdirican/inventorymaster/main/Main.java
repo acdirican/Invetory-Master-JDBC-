@@ -1,4 +1,4 @@
-package com.acdirican.inventorymaster;
+package com.acdirican.inventorymaster.main;
 
 import java.sql.SQLException;
 

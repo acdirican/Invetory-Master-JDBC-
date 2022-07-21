@@ -25,9 +25,21 @@ public class DB {
 
 	private Connection connection;
 
-	public void connect() throws SQLException {
-		this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventorymaster_db", "root", "");
-		this.connection.setAutoCommit(true);
+	public boolean connect() throws SQLException {
+		String myDriver = "com.mysql.cj.jdbc.Driver";
+	    String myUrl = "jdbc:mysql://localhost:3306/inventorymaster_db";
+	    String myUser = "root";
+	    String myPassword="";
+	    try {
+			Class.forName(myDriver);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
+	      
+		this.connection = DriverManager.getConnection(myUrl, myUser, myPassword);
+		//this.connection.setAutoCommit(true);
+		return true;
 	}
 
 	public void close() {
