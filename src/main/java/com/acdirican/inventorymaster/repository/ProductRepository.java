@@ -1,4 +1,4 @@
-package com.acdirican.inventorymaster.db;
+package com.acdirican.inventorymaster.repository;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
-import com.acdirican.inventorymaster.entities.Product;
+import com.acdirican.inventorymaster.model.Product;
 
 /**
  * Database manager of the software
@@ -21,7 +21,7 @@ import com.acdirican.inventorymaster.entities.Product;
  * @author Ahmet Cengizhan Dirican
  *
  */
-public class DB {
+public class ProductRepository {
 
 	private Connection connection;
 

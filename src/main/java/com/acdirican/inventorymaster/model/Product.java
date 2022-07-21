@@ -1,4 +1,4 @@
-package com.acdirican.inventorymaster.entities;
+package com.acdirican.inventorymaster.model;
 
 /**
  * Product entity. This class represents a product in the database.

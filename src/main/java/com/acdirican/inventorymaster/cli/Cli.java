@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.acdirican.inventorymaster.db.DB;
-import com.acdirican.inventorymaster.entities.Product;
+import com.acdirican.inventorymaster.model.Product;
+import com.acdirican.inventorymaster.repository.ProductRepository;
 
 /**
  * Command line user interface of the software
@@ -40,9 +40,9 @@ public class Cli {
 	
 	
 	private final Scanner scanner;
-	private DB db;
+	private ProductRepository db;
 
-	public Cli(DB db) {
+	public Cli(ProductRepository db) {
 		try {
 			db.connect();
 			System.out.println("DB conneciton is successfull!");
