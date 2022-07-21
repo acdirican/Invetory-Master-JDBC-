@@ -272,6 +272,9 @@ public class Cli {
 	}
 
 	private String delete(String[] parameters) {
+		if (!confirm("Are you sure to delete? [y/n]")) {
+			return "Delete cancelled";
+		}
 		int ID = parameters.length == 1
 				? 0
 				: Integer.parseInt(parameters[1]);
@@ -287,6 +290,12 @@ public class Cli {
 		}
 		
 		return ERROR + "Product with the ID " + ID + " could not be found!";
+	}
+
+	private boolean confirm(String msg) {
+		System.out.println(msg);
+		String answer = scanner.nextLine().trim().toLowerCase();
+		return answer.equals("yes") || answer.equals("y");
 	}
 
 	private String fetch(String[] parameters) {
