@@ -21,7 +21,8 @@ public class Cli {
 
 	private static final String HELP = "help";
 	private static final String EXIT = "exit";
-
+	
+	private static final String GET = "get";
 	private static final String LIST = "list";
 	
 		private static final String LISTMORETHEN = "morethan";
@@ -34,7 +35,7 @@ public class Cli {
 	
 	private static final String FIND = "find";
 	private static final String UPDATE = "update";
-	private static final String FETCH = "fetch";
+	private static final String INDEXOF = "indexof";
 	private static final String ADD = "add";
 
 	private static final String DELETE = "delete";
@@ -45,6 +46,7 @@ public class Cli {
 	static final String ERROR = "ERROR: ";
 	static final String DBERROR = ERROR + " DB connection or query error!";
 	static final String ERROR_UNKNOWN_PARAMATER = ERROR + " Unknown paramter!";
+
 	
 
 	private Scanner scanner = null;
@@ -64,8 +66,8 @@ public class Cli {
 			e.printStackTrace();
 		}
 		this.repository = repository;
-		this.productRepository = repository.getProductRepository();
-		this.supplierRepository = repository.getSupplierRepository();
+		this.productRepository = Repository.getProductRepository();
+		this.supplierRepository = Repository.getSupplierRepository();
 		this.productCli = new ProductCli(this, productRepository);
 		this.supplierCli = new SupplierCli(this, supplierRepository);
 
@@ -102,9 +104,13 @@ public class Cli {
 		case ADD: {
 			return add(parameters);
 		}
-
-		case FETCH: {
-			return fetch(parameters);
+		
+		case GET: {
+			return get(parameters);
+		}
+		
+		case INDEXOF: {
+			return indexOf(parameters);
 		}
 
 		case DELETE: {
@@ -193,15 +199,29 @@ public class Cli {
 		return ERROR_UNKNOWN_PARAMATER;
 
 	}
-	private String fetch(String[] parameters) {
+	private String indexOf(String[] parameters) {
 		if (parameters.length < 3) {
 			return ERROR + "Missign argument!";
 		}
 		int index = Integer.parseInt(parameters[2]);
 		if (parameters[1].equalsIgnoreCase(PRODUCT)) {
-			return productCli.fetch(index);
+			return productCli.indexOf(index);
 		} else if (parameters[1].equalsIgnoreCase(SUPPLIER)) {
-			return  supplierCli.fetch(index);
+			return  supplierCli.indexOf(index);
+		}
+		return ERROR_UNKNOWN_PARAMATER;
+
+	}
+	
+	private String get(String[] parameters) {
+		if (parameters.length < 3) {
+			return ERROR + "Missign argument!";
+		}
+		int ID = Integer.parseInt(parameters[2]);
+		if (parameters[1].equalsIgnoreCase(PRODUCT)) {
+			return productCli.get(ID);
+		} else if (parameters[1].equalsIgnoreCase(SUPPLIER)) {
+			return  supplierCli.get(ID);
 		}
 		return ERROR_UNKNOWN_PARAMATER;
 

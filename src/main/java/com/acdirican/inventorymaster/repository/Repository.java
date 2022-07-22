@@ -26,10 +26,10 @@ public class Repository {
 
 	static final String ERROR = "Database error!";
 	
-	private Connection connection;
+	private static Connection connection;
 	
-	private ProductRepository productRepository;
-	private SupplierRepository supplierRepository;
+	private static ProductRepository productRepository;
+	private static SupplierRepository supplierRepository;
 	
 	public boolean connect() throws SQLException {
 		
@@ -44,17 +44,17 @@ public class Repository {
 			return false;
 		}
 	      
-		this.connection = DriverManager.getConnection(myUrl, myUser, myPassword);
-		this.productRepository = new ProductRepository(this);
-		this.supplierRepository =  new SupplierRepository(this);
+		connection = DriverManager.getConnection(myUrl, myUser, myPassword);
+		productRepository = new ProductRepository(this);
+		supplierRepository =  new SupplierRepository(this);
 		
 		return true;
 	}
 
 	public void close() {
-		if (this.connection != null) {
+		if (connection != null) {
 			try {
-				this.connection.close();
+				connection.close();
 			} catch (SQLException e) {
 				System.err.println("Could not be closed the connection to the mysql database!");
 			}
@@ -111,11 +111,11 @@ public class Repository {
 		return joiner.toString();
 	}
 	
-	public ProductRepository getProductRepository() {
+	public static ProductRepository getProductRepository() {
 		return productRepository;
 	}
 	
-	public SupplierRepository getSupplierRepository() {
+	public static  SupplierRepository getSupplierRepository() {
 		return supplierRepository;
 	}
 
@@ -123,7 +123,7 @@ public class Repository {
 		return supplierRepository.get(ID);
 	}
 	
-	public Connection getConnection() {
+	public static Connection getConnection() {
 		return connection;
 	}
 	

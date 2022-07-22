@@ -2,6 +2,8 @@ package com.acdirican.inventorymaster.model;
 
 import java.util.List;
 
+import com.acdirican.inventorymaster.repository.Repository;
+
 public class Supplier {
 	
 	private int ID;
@@ -36,5 +38,12 @@ public class Supplier {
 		return "Supplier [ID=" + ID + ", name=" + name + ", products=" + products + "]";
 	}
 	
+	public List<Product> getProducts() {
+		//lazy load of supplier's products
+		if (products == null) {
+			products = Repository.getSupplierRepository().getProducts(this);
+		}
+		return products;
+	}
 	
 }

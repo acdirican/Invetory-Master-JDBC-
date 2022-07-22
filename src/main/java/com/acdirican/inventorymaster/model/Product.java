@@ -58,12 +58,11 @@ public class Product {
 		this.quantity = quantity;
 	}
 	
-
-
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
 	
+
 	@Override
 	public String toString() {
 		return "Product [ID=" + ID + ", name=" + name + ", quantity=" + quantity + ", supplier:" + supplier.getName() + "]";

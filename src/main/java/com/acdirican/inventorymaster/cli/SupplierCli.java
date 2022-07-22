@@ -96,15 +96,31 @@ public class SupplierCli extends AbstractCLi{
 		return Cli.ERROR + "Supplier with the ID " + ID + " could not be found!";
 	}
 
-	String fetch(int index) {
-		Supplier supplier = supplierRepository.fetch(index);
+	String indexOf(int index) {
+		Supplier supplier = supplierRepository.indexOf(index);
 		if (supplier != null) {
 			System.out.println(supplier);
+			System.out.println("Products:");
+			ProductCli.printProductList(supplier.getProducts());
 			return "Supplier fetch is succesfull.";
 		}
 
 		return Cli.ERROR + "Supplier with the index number " + index + " could not be found!";
 	}
+	
+	String get(int index) {
+		Supplier supplier = supplierRepository.get(index);
+		if (supplier != null) {
+			System.out.println(supplier);
+			System.out.println("Products:");
+			ProductCli.printProductList(supplier.getProducts());
+			return "Supplier fetch is succesfull.";
+		}
+
+		return Cli.ERROR + "Supplier with the index number " + index + " could not be found!";
+	}
+	
+	
 
 	String add() {
 		Utils.line();
@@ -138,4 +154,6 @@ public class SupplierCli extends AbstractCLi{
 		return suppliers.size() + " suppliers have been successfull listed.";
 
 	}
+
+
 }

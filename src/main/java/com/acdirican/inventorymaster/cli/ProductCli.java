@@ -155,7 +155,7 @@ public class ProductCli extends AbstractCLi {
 		return Cli.ERROR + "Product with the ID " + ID + " could not be found!";
 	}
 
-	String fetch(int index) {
+	String indexOf(int index) {
 		Product product;
 
 		product = productRepository.fetch(index);
@@ -166,6 +166,16 @@ public class ProductCli extends AbstractCLi {
 		return Cli.ERROR + "Product with the index number " + index + " could not be found!";
 	}
 
+	public String get(int ID) {
+		Product product = productRepository.get(ID);
+		if (product != null) {
+			System.out.println(product);
+			return "Product get is succesfull.";
+		}
+		return Cli.ERROR + "Product with the ID number " + ID + " could not be found!";
+	}
+
+	
 	String add() {
 		Utils.line();
 		System.out.println("Enter product name:");
@@ -186,7 +196,7 @@ public class ProductCli extends AbstractCLi {
 
 	}
 
-	private static void printProductList(List<Product> products) {
+	static void printProductList(List<Product> products) {
 		System.out.printf("%-10s %-30s %-20s %-30s\n", "ID", "Name", "Quantity", "Supplier");
 		Utils.line();
 		for (Product product : products) {
@@ -205,6 +215,7 @@ public class ProductCli extends AbstractCLi {
 		return products.size() + " products have been successfull listed.";
 
 	}
+
 
 
 }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
+import com.acdirican.inventorymaster.model.Product;
 import com.acdirican.inventorymaster.model.Supplier;
 import com.acdirican.inventorymaster.model.Supplier;
 
@@ -59,7 +60,7 @@ public class SupplierRepository extends AbstracyRepository {
 		
 	}
 
-	public Supplier fetch(int index){
+	public Supplier indexOf(int index){
 		Statement statement;
 		try {
 			statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE
@@ -106,6 +107,25 @@ public class SupplierRepository extends AbstracyRepository {
 		return null;
 	}
 
+	public List<Product> getProducts(Supplier supplier) {
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareCall("select p.* from supplier s, product p where s.ID = " 
+								+ supplier.getID() + "  and p.SupplierID = ?" );
+			
+			statement.setInt(1, supplier.getID());
+			ResultSet rs = statement.executeQuery();
+			List<Product> products =  new ArrayList<>();
+			while(rs.next()) {
+				products.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), supplier));
+			}
+			return products;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return null;
+	}
+	
 	public boolean update(Supplier supplier) {
 		String SQL = "Update supplier Set " + "name='" + supplier.getName() + "' Where ID = " + supplier.getID();
 		// System.out.println(SQL);
