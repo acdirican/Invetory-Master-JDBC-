@@ -158,7 +158,7 @@ public class ProductCli extends AbstractCLi {
 	String indexOf(int index) {
 		Product product;
 
-		product = productRepository.fetch(index);
+		product = productRepository.indexOf(index);
 		if (product != null) {
 			System.out.println(product);
 			return "Product fetch is succesfull.";

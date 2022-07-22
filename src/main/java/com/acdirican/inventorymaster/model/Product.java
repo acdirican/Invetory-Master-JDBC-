@@ -62,7 +62,6 @@ public class Product {
 		this.supplier = supplier;
 	}
 	
-
 	@Override
 	public String toString() {
 		return "Product [ID=" + ID + ", name=" + name + ", quantity=" + quantity + ", supplier:" + supplier.getName() + "]";

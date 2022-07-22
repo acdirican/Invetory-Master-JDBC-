@@ -19,6 +19,8 @@ import com.acdirican.inventorymaster.model.Supplier;
 /**
  * Repository class for the product entity.
  * 
+ * JDBC: DriverManager -> Connection -> Statement -> ResultSet
+ * 
  * @author Ahmet Cengizhan Dirican
  *
  */

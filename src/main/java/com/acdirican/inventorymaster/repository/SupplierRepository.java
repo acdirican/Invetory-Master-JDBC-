@@ -24,11 +24,11 @@ import com.acdirican.inventorymaster.model.Supplier;
  *
  */
 public class SupplierRepository extends AbstracyRepository {
-	
-	public SupplierRepository( Repository repository) {
+
+	public SupplierRepository(Repository repository) {
 		super(repository);
 	}
-	
+
 	public List<Supplier> list() {
 		Statement statement;
 		try {
@@ -52,29 +52,34 @@ public class SupplierRepository extends AbstracyRepository {
 			statement = connection.createStatement();
 			int numOfAffectedRows = statement.executeUpdate(SQL);
 			return numOfAffectedRows > 0;
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 	}
 
-	public Supplier indexOf(int index){
+	/**
+	 * Finds the Supplier matching the given index
+	 * 
+	 * @param index
+	 * @return
+	 */
+	public Supplier indexOf(int index) {
 		Statement statement;
 		try {
-			statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE
-					, ResultSet.CONCUR_READ_ONLY);
+			statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet rs = statement.executeQuery("select * from supplier");
 			if (rs.absolute(index)) {
 				return new Supplier(rs.getInt(1), rs.getString(2));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
-		}	
+
+		}
 		return null;
-		
+
 	}
 
 	public boolean delete(int ID) {
@@ -88,7 +93,7 @@ public class SupplierRepository extends AbstracyRepository {
 			e.printStackTrace();
 			return false;
 		}
-			
+
 	}
 
 	public Supplier get(int ID) {
@@ -103,29 +108,30 @@ public class SupplierRepository extends AbstracyRepository {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		}
 		return null;
 	}
 
+	/* Prepared Statement */
 	public List<Product> getProducts(Supplier supplier) {
 		PreparedStatement statement;
 		try {
-			statement = connection.prepareCall("select p.* from supplier s, product p where s.ID = " 
-								+ supplier.getID() + "  and p.SupplierID = ?" );
-			
+			statement = connection.prepareCall("select p.* from supplier s, product p where s.ID = " + supplier.getID()
+					+ "  and p.SupplierID = ?");
+
 			statement.setInt(1, supplier.getID());
 			ResultSet rs = statement.executeQuery();
-			List<Product> products =  new ArrayList<>();
-			while(rs.next()) {
+			List<Product> products = new ArrayList<>();
+			while (rs.next()) {
 				products.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), supplier));
 			}
 			return products;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		}
 		return null;
 	}
-	
+
 	public boolean update(Supplier supplier) {
 		String SQL = "Update supplier Set " + "name='" + supplier.getName() + "' Where ID = " + supplier.getID();
 		// System.out.println(SQL);
@@ -135,7 +141,7 @@ public class SupplierRepository extends AbstracyRepository {
 			int numOfAffectedRows = statement.executeUpdate(SQL);
 			return numOfAffectedRows > 0;
 		} catch (SQLException e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			return false;
 		}
 	}
@@ -146,26 +152,25 @@ public class SupplierRepository extends AbstracyRepository {
 			statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery("select * from supplier where Name Like '%" + name + "%'");
 
-		List<Supplier> list = new ArrayList<>();
+			List<Supplier> list = new ArrayList<>();
 
-		while (rs.next()) {
-			list.add(new Supplier(rs.getInt(1), rs.getString(2)));
-		}
+			while (rs.next()) {
+				list.add(new Supplier(rs.getInt(1), rs.getString(2)));
+			}
 
-		return list;
+			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-
-
-	public int deleteAll(List<Integer> id_list){
+	/* Batch operation */
+	public int deleteAll(List<Integer> id_list) {
 		if (id_list.size() == 0) {
 			return -1;
 		}
-		
+
 		Statement statement;
 		try {
 			statement = connection.createStatement();
@@ -174,7 +179,7 @@ public class SupplierRepository extends AbstracyRepository {
 				statement.addBatch(SQL);
 			}
 			int[] numberOfAffectedRows = statement.executeBatch();
-			
+
 			int sum = 0;
 			for (int r : numberOfAffectedRows) {
 				sum += r;
@@ -182,9 +187,7 @@ public class SupplierRepository extends AbstracyRepository {
 			return sum;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return -1;
 		}
-		return -1;	
 	}
-
-
 }
