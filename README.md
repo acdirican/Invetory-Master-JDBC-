@@ -24,8 +24,8 @@ List of Commands:
 <li>list depleted</li>
 <br/>
 <li>find [product/supplier] [NAME]</li>
-<li>indexof [product/supplier] [INDEX]</li>
-<li>get [product/supplier] [INDEX]</li>
+<li>getbyindex [product/supplier] [INDEX]</li>
+<li>getbyid [product/supplier] [ID]</li>
 <br/>
 <li>update [product/supplier] [ID]</li>
 <li>add [product/supplier]</li>
