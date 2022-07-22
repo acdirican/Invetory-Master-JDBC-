@@ -4,6 +4,13 @@ import java.util.List;
 
 import com.acdirican.inventorymaster.repository.Repository;
 
+/**
+ * Supplier entity. This class represents a supplier in the database.
+ * 
+ * @author Ahmet Cengizhan Dirican
+ *
+ */
+
 public class Supplier {
 	
 	private int ID;
@@ -39,11 +46,10 @@ public class Supplier {
 	}
 	
 	public List<Product> getProducts() {
-		//lazy load of supplier's products
-		if (products == null) {
-			products = Repository.getSupplierRepository().getProducts(this);
-		}
-		return products;
+			return products;
+	}
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 	
 }

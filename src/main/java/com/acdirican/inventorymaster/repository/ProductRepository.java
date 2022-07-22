@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.StringJoiner;
 
 import com.acdirican.inventorymaster.model.Product;
@@ -58,8 +59,9 @@ public class ProductRepository extends AbstracyRepository {
 			ResultSet rs = statement.executeQuery();
 
 			while (rs.next()) {
+				Supplier supplier = repository.findSupplier(rs.getInt(4)).orElse(null);
 				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3),
-						repository.findSupplier(rs.getInt(4))));
+						supplier ));
 			}
 
 			return list;
@@ -81,8 +83,9 @@ public class ProductRepository extends AbstracyRepository {
 			List<Product> list = new ArrayList<>();
 
 			while (rs.next()) {
+				Supplier supplier = repository.findSupplier(rs.getInt(4)).orElse(null);
 				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3),
-						repository.findSupplier(rs.getInt(4))));
+						supplier));
 			}
 
 			return list;
@@ -107,21 +110,22 @@ public class ProductRepository extends AbstracyRepository {
 		return false;
 	}
 
-	public Product indexOf(int i) {
+	public Optional<Product>  getWithIndex(int index) {
 		Statement statement;
 		try {
-			statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-
+			statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE
+					, ResultSet.CONCUR_READ_ONLY);
 			ResultSet rs = statement.executeQuery("select * from product");
-			if (rs.absolute(i)) {
-				return new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3),
-						repository.findSupplier(rs.getInt(4)));
+			if (rs.absolute(index)) {
+				Supplier supplier = repository.findSupplier(rs.getInt(4)).orElse(null);
+				return Optional.of(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3),
+						supplier));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return Optional.empty();
 	}
 
 	public boolean delete(int ID) {
@@ -139,21 +143,22 @@ public class ProductRepository extends AbstracyRepository {
 		return false;
 	}
 
-	public Product get(int ID) {
+	public Optional<Product> getWithID(int ID) {
 		Statement statement;
 		try {
 			statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery("select * from product where ID = " + ID);
 
 			if (rs.next()) {
-				return new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3),
-						repository.findSupplier(rs.getInt(4)));
+				Supplier supplier = repository.findSupplier(rs.getInt(4)).orElse(null);
+				return  Optional.of(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3),
+						supplier));
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return Optional.empty();
 	}
 
 	public boolean update(Product product) {
@@ -181,8 +186,9 @@ public class ProductRepository extends AbstracyRepository {
 			List<Product> list = new ArrayList<>();
 
 			while (rs.next()) {
+				Supplier supplier = repository.findSupplier(rs.getInt(4)).orElse(null);
 				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3),
-						repository.findSupplier(rs.getInt(4))));
+						supplier));
 			}
 
 			return list;
@@ -207,8 +213,9 @@ public class ProductRepository extends AbstracyRepository {
 			ResultSet rs = statement.getResultSet();
 			List<Product> list = new ArrayList<>();
 			while (rs.next()) {
+				Supplier supplier = repository.findSupplier(rs.getInt(4)).orElse(null);
 				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3),
-						repository.findSupplier(rs.getInt(4))));
+						supplier));
 			}
 			return list;
 		} catch (SQLException e) {
@@ -231,8 +238,9 @@ public class ProductRepository extends AbstracyRepository {
 			ResultSet rs = statement.getResultSet();
 			List<Product> list = new ArrayList<>();
 			while (rs.next()) {
+				Supplier supplier = repository.findSupplier(rs.getInt(4)).orElse(null);
 				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3),
-						repository.findSupplier(rs.getInt(4))));
+						supplier));
 			}
 			return list;
 		} catch (SQLException e) {

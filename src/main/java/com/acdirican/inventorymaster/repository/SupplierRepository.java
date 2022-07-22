@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.StringJoiner;
 
 import com.acdirican.inventorymaster.model.Product;
@@ -66,19 +67,18 @@ public class SupplierRepository extends AbstracyRepository {
 	 * @param index
 	 * @return
 	 */
-	public Supplier indexOf(int index) {
-		Statement statement;
+	public Optional<Supplier> getWithIndex(int index) {
 		try {
-			statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet rs = statement.executeQuery("select * from supplier");
 			if (rs.absolute(index)) {
-				return new Supplier(rs.getInt(1), rs.getString(2));
+				return Optional.of(new Supplier(rs.getInt(1), rs.getString(2)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 
 		}
-		return null;
+		return Optional.empty();
 
 	}
 
@@ -96,20 +96,20 @@ public class SupplierRepository extends AbstracyRepository {
 
 	}
 
-	public Supplier get(int ID) {
+	public Optional<Supplier> getWithID(int ID) {
 		Statement statement;
 		try {
 			statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery("select * from supplier where ID = " + ID);
 
 			if (rs.next()) {
-				return new Supplier(rs.getInt(1), rs.getString(2));
+				return Optional.of(new Supplier(rs.getInt(1), rs.getString(2)));
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return Optional.empty();
 	}
 
 	/* Prepared Statement */
@@ -188,6 +188,12 @@ public class SupplierRepository extends AbstracyRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
+		}
+	}
+
+	public void setProducts(Supplier supplier) {
+		if (supplier.getProducts() == null) {
+			supplier.setProducts(getProducts(supplier));
 		}
 	}
 }

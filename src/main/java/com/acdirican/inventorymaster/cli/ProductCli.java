@@ -3,6 +3,7 @@ package com.acdirican.inventorymaster.cli;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import com.acdirican.inventorymaster.model.Product;
@@ -38,7 +39,7 @@ public class ProductCli extends AbstractCLi {
 			return "No product deleted.";
 		}
 
-		return Cli.DBERROR;
+		return Command.DBERROR;
 
 	}
 
@@ -47,7 +48,7 @@ public class ProductCli extends AbstractCLi {
 		List<Product> products = productRepository.listDepleteds();
 
 		if (products == null) {
-			return Cli.DBERROR;
+			return Command.DBERROR;
 		}
 		printProductList(products);
 		return products.size() + " products have been successfull listed.";
@@ -58,7 +59,7 @@ public class ProductCli extends AbstractCLi {
 
 		List<Product> products = productRepository.listEquals(quantity);
 		if (products == null) {
-			return Cli.DBERROR;
+			return Command.DBERROR;
 		}
 		printProductList(products);
 		return products.size() + " products have been successfull listed.";
@@ -69,7 +70,7 @@ public class ProductCli extends AbstractCLi {
 
 		List<Product> products = productRepository.find(name);
 		if (products == null) {
-			return Cli.DBERROR;
+			return Command.DBERROR;
 		}
 		printProductList(products);
 		return products.size() + " products have been successfull listed.";
@@ -80,7 +81,7 @@ public class ProductCli extends AbstractCLi {
 
 		List<Product> products = productRepository.listMoreThan(quantity);
 		if (products == null) {
-			return Cli.DBERROR;
+			return Command.DBERROR;
 		}
 		printProductList(products);
 		return products.size() + " products have been successfull listed.";
@@ -91,7 +92,7 @@ public class ProductCli extends AbstractCLi {
 
 		List<Product> products = productRepository.listLessThan(quantity);
 		if (products == null) {
-			return Cli.DBERROR;
+			return Command.DBERROR;
 		}
 		printProductList(products);
 		return products.size() + " products have been successfull listed.";
@@ -99,15 +100,13 @@ public class ProductCli extends AbstractCLi {
 	}
 
 	String update(int ID) {
-		Product product = null;
-		;
-
-		product = productRepository.get(ID);
-		if (product == null) {
-			return Cli.DBERROR;
+		Optional<Product> productOp = productRepository.getWithID(ID);
+		if (productOp.isEmpty()) {
+			return Command.ERROR + "Product with the ID " + ID + " could not be found!";
 		}
+		Product product = productOp.get();
 
-		if (product != null) {
+
 			Utils.line();
 			System.out.println(product);
 			Utils.line();
@@ -137,9 +136,9 @@ public class ProductCli extends AbstractCLi {
 				return "Product succesfully updated!";
 			}
 
-		}
+			return Command.ERROR + "Product could not be updated!";
 
-		return Cli.ERROR + "Product with the ID " + ID + " could not be found!";
+	
 	}
 
 	String delete(int ID) {
@@ -152,27 +151,26 @@ public class ProductCli extends AbstractCLi {
 			return "Product delete is succesfull.";
 		}
 
-		return Cli.ERROR + "Product with the ID " + ID + " could not be found!";
+		return Command.ERROR + "Product with the ID " + ID + " could not be found!";
 	}
 
-	String indexOf(int index) {
-		Product product;
-
-		product = productRepository.indexOf(index);
-		if (product != null) {
-			System.out.println(product);
-			return "Product fetch is succesfull.";
+	String getWithIndex(int index) {
+		Optional<Product> productOp = productRepository.getWithIndex(index);
+		if (productOp.isEmpty()) {
+			return Command.ERROR + "Product with the index " + index + " could not be found!";
 		}
-		return Cli.ERROR + "Product with the index number " + index + " could not be found!";
+		Product product = productOp.get();
+		System.out.println(product);
+		return "Product fetch is succesfull.";
 	}
 
-	public String get(int ID) {
-		Product product = productRepository.get(ID);
-		if (product != null) {
-			System.out.println(product);
-			return "Product get is succesfull.";
+	public String getWithID(int ID) {
+		Optional<Product> productOp = productRepository.getWithID(ID);
+		if (productOp.isEmpty()) {
+			return Command.ERROR + "Product with the ID " + ID + " could not be found!";
 		}
-		return Cli.ERROR + "Product with the ID number " + ID + " could not be found!";
+		System.out.println(productOp.get());
+		return "Product get is successfull.";
 	}
 
 	
@@ -209,7 +207,7 @@ public class ProductCli extends AbstractCLi {
 	String list() {
 		List<Product> products = productRepository.list();
 		if (products == null) {
-			return Cli.DBERROR;
+			return Command.DBERROR;
 		}
 		printProductList(products);
 		return products.size() + " products have been successfull listed.";

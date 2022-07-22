@@ -3,10 +3,12 @@ package com.acdirican.inventorymaster.cli;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import com.acdirican.inventorymaster.model.Supplier;
 import com.acdirican.inventorymaster.repository.ProductRepository;
+import com.acdirican.inventorymaster.repository.Repository;
 import com.acdirican.inventorymaster.repository.SupplierRepository;
 
 public class SupplierCli extends AbstractCLi{
@@ -35,7 +37,7 @@ public class SupplierCli extends AbstractCLi{
 			return "No supplier deleted.";
 		}
 
-		return Cli.DBERROR;
+		return Command.DBERROR;
 
 	}
 
@@ -44,7 +46,7 @@ public class SupplierCli extends AbstractCLi{
 
 		List<Supplier> suppliers = supplierRepository.find(name);
 		if (suppliers == null) {
-			return Cli.DBERROR;
+			return Command.DBERROR;
 		}
 		printSupplierList(suppliers);
 		return suppliers.size() + " suppliers have been successfull listed.";
@@ -54,33 +56,30 @@ public class SupplierCli extends AbstractCLi{
 	
 
 	String update(int ID) {
-		Supplier supplier = null;
+		Optional<Supplier> supplierOp = supplierRepository.getWithID(ID);
+		if (supplierOp.isEmpty()) {
+			return Command.ERROR + "Supplier with the ID " + ID + " could not be found!";
+		}
+		Supplier supplier = supplierOp.get();
+
+		Utils.line();
+		System.out.println(supplier);
+		Utils.line();
+		System.out.println("Live empty if you don't want to update the field!");
+		System.out.println("Enter supplier name:");
+		String name = scanner.nextLine().trim();
 		
-		supplier = supplierRepository.get(ID);
-		if (supplier == null) {
-			return Cli.DBERROR;
+		Utils.line();
+
+		if (!name.equals("")) {
+			supplier.setName(name);
 		}
 
-		if (supplier != null) {
-			Utils.line();
-			System.out.println(supplier);
-			Utils.line();
-			System.out.println("Live empty if you don't want to update the field!");
-			System.out.println("Enter supplier name:");
-			String name = scanner.nextLine().trim();
-			System.out.println("Enter supplier quantity:");
-			String quantityStr = scanner.nextLine().trim();
-			Utils.line();
-
-			if (!name.equals("")) {
-				supplier.setName(name);
-			}
-
-			if (supplierRepository.update(supplier)) {
-				return "Supplier succesfully updated!";
-			}
+		if (supplierRepository.update(supplier)) {
+			return "Supplier succesfully updated!";
+		} else {
+			return "Supplier could not be updated!";
 		}
-		return Cli.ERROR + "Supplier with the ID " + ID + " could not be found!";
 	}
 
 	String delete(int ID) {
@@ -93,31 +92,33 @@ public class SupplierCli extends AbstractCLi{
 			return "Supplier delete is succesfull.";
 		}
 
-		return Cli.ERROR + "Supplier with the ID " + ID + " could not be found!";
+		return Command.ERROR + "Supplier with the ID " + ID + " could not be found!";
 	}
 
-	String indexOf(int index) {
-		Supplier supplier = supplierRepository.indexOf(index);
-		if (supplier != null) {
+	String getWithIndex(int index) {
+		Optional<Supplier> supplierOp = supplierRepository.getWithIndex(index);
+		if (supplierOp.isPresent()) {
+			Supplier supplier = supplierOp.get();
 			System.out.println(supplier);
 			System.out.println("Products:");
 			ProductCli.printProductList(supplier.getProducts());
 			return "Supplier fetch is succesfull.";
 		}
 
-		return Cli.ERROR + "Supplier with the index number " + index + " could not be found!";
+		return Command.ERROR + "Supplier with the index number " + index + " could not be found!";
 	}
-	
-	String get(int index) {
-		Supplier supplier = supplierRepository.get(index);
-		if (supplier != null) {
+
+	String getWithID(int ID) {
+		Optional<Supplier> supplierOp = supplierRepository.getWithID(ID);
+		if (supplierOp.isPresent()) {
+			Supplier supplier = supplierOp.get();
 			System.out.println(supplier);
 			System.out.println("Products:");
 			ProductCli.printProductList(supplier.getProducts());
 			return "Supplier fetch is succesfull.";
 		}
 
-		return Cli.ERROR + "Supplier with the index number " + index + " could not be found!";
+		return Command.ERROR + "Supplier with the ID number " + ID + " could not be found!";
 	}
 	
 	
@@ -148,7 +149,7 @@ public class SupplierCli extends AbstractCLi{
 	String list() {
 		List<Supplier> suppliers = supplierRepository.list();
 		if (suppliers == null) {
-			return Cli.DBERROR;
+			return Command.DBERROR;
 		}
 		printSupplierList(suppliers);
 		return suppliers.size() + " suppliers have been successfull listed.";

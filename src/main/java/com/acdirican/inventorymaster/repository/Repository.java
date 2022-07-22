@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.StringJoiner;
 
 import com.acdirican.inventorymaster.model.Product;
@@ -113,19 +114,19 @@ public class Repository {
 		return joiner.toString();
 	}
 	
-	public static ProductRepository getProductRepository() {
+	public ProductRepository getProductRepository() {
 		return productRepository;
 	}
 	
-	public static  SupplierRepository getSupplierRepository() {
+	public SupplierRepository getSupplierRepository() {
 		return supplierRepository;
 	}
 
-	public Supplier findSupplier(int ID) {
-		return supplierRepository.get(ID);
+	public Optional<Supplier> findSupplier(int ID) {
+		return supplierRepository.getWithID(ID);
 	}
 	
-	public static Connection getConnection() {
+	public Connection getConnection() {
 		return connection;
 	}
 	
