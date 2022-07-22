@@ -1,8 +1,8 @@
 # Inventory Master using JDBC
 
-This is a simple inventory managment software based on JDBC (DriverManager). Its DBMS is MySQL. 
+This is a simple inventory managment software based on JDBC (DriverManager). Its uses MySQL and preaped using Maven. 
 
-It is a Maven project. 
+The project allows you to keep track of a product inventory with supplier information. Therefore it includes two entities: Product and Supplier. There is an one-to-many relationship between them.  
 
 Before running the project, you first need to install MySQL (port: 3306) and then create the inventorymaster_db using the SQL import file given in the project folder.
 
