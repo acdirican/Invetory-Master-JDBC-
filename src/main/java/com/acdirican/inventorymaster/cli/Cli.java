@@ -286,7 +286,8 @@ public class Cli {
 				+ "list morethan [QUANTITY] \n"
 				+ "list lessthan [QUANTITY]\n" 
 				+ "list equals [QUANTITY]\n" 
-				+ "list depleted\n" + "find <NAME>\n"
+				+ "list depleted\n" 
+				+ "find [product/supplier] [NAME]\n"
 				
 				+ "indexof [product/supplier] [INDEX]\n" 
 				+ "get [product/supplier] [ID]\n" 
