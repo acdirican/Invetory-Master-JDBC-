@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 22 Tem 2022, 23:18:08
+-- Üretim Zamanı: 23 Tem 2022, 00:48:55
 -- Sunucu sürümü: 10.4.24-MariaDB
 -- PHP Sürümü: 7.4.28
 
@@ -26,11 +26,11 @@ DELIMITER $$
 -- Yordamlar
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_depleted_products` ()   BEGIN  
-    SELECT * FROM products WHERE quantity = 0;
+    SELECT * FROM product WHERE quantity = 0;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_products_byquantity` (IN `quantity` DOUBLE)   BEGIN
-    SELECT * FROM products WHERE products.quantity = quantity;
+    SELECT * FROM product WHERE product.quantity = quantity;
 END$$
 
 DELIMITER ;

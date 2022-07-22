@@ -207,7 +207,7 @@ public class ProductRepository extends AbstracyRepository {
 	public List<Product> listEquals(double quantity) {
 		CallableStatement statement;
 		try {
-			statement = connection.prepareCall("{call get_paroducts_byquantity(?)}");
+			statement = connection.prepareCall("{call get_products_byquantity(?)}");
 			statement.setDouble(1, quantity);
 			statement.execute();
 			ResultSet rs = statement.getResultSet();
@@ -233,7 +233,7 @@ public class ProductRepository extends AbstracyRepository {
 	public List<Product> listDepleteds() {
 		CallableStatement statement;
 		try {
-			statement = connection.prepareCall("{call get_delpeted_products()}");
+			statement = connection.prepareCall("{call get_depleted_products()}");
 			statement.execute();
 			ResultSet rs = statement.getResultSet();
 			List<Product> list = new ArrayList<>();
