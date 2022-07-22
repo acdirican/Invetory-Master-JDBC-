@@ -14,14 +14,18 @@ List of Commands:
 <ul>
 <li>help</li>
 <li>exit</li> 
+<br/>
 <li>list [product/supplier]</li>
 <li>list morethan [QUANTITY] </li>
 <li>list lessthan [QUANTITY]</li>
 <li>list equals [QUANTITY]</li>
 <li>list depleted</li>
-<li>find <NAME></li>
+<br/>
+<li>find [product/supplier] [NAME]</li>
+<li>indexof [product/supplier] [INDEX]</li>
+<li>get [product/supplier] [INDEX]</li>
+<br/>
 <li>update [product/supplier] [ID]</li>
-<li>fetch <INDEX></li>
 <li>add [product/supplier]</li>
 <li>delete [product/supplier] [ID]</li></li>
 <li>delete_all [product/supplier]  [ID]+</li>
