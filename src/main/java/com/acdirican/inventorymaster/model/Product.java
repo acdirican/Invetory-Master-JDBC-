@@ -11,16 +11,27 @@ public class Product {
 	private int ID;
 	private String name;
 	private double quantity;
+	private Supplier supplier;
 	
-	public Product(int iD, String name, double quantity) {
+	public Product(int iD, String name, double quantity, Supplier supplier) {
 		super();
 		ID = iD;
 		this.name = name;
 		this.quantity = quantity;
+		this.supplier = supplier;
 	}
 
 	public Product(String name, double quantity) {
-		this(0, name, quantity);
+		this(0, name, quantity, null);
+	}
+
+	public Product(int ID, String name, double quantity) {
+		this(ID, name, quantity, null);
+	}
+
+
+	public Product(String name, double quantity, Supplier supplier) {
+		this(0, name, quantity, supplier);
 	}
 
 	public int getID() {
@@ -46,10 +57,16 @@ public class Product {
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
+	
 
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+	
 	@Override
 	public String toString() {
-		return "Product [ID=" + ID + ", name=" + name + ", quantity=" + quantity + "]";
+		return "Product [ID=" + ID + ", name=" + name + ", quantity=" + quantity + ", supplier:" + supplier.getName() + "]";
 	}
 
 	@Override
@@ -83,6 +100,10 @@ public class Product {
 		if (Double.doubleToLongBits(quantity) != Double.doubleToLongBits(other.quantity))
 			return false;
 		return true;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
 	}
 	
 	

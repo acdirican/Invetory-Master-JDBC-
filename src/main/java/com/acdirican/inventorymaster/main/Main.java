@@ -3,7 +3,7 @@ package com.acdirican.inventorymaster.main;
 import java.sql.SQLException;
 
 import com.acdirican.inventorymaster.cli.Cli;
-import com.acdirican.inventorymaster.repository.ProductRepository;
+import com.acdirican.inventorymaster.repository.Repository;
 
 /**
  * Starter class of the project.
@@ -13,7 +13,7 @@ import com.acdirican.inventorymaster.repository.ProductRepository;
  */
 public class Main {
 	public static void main(String[] args) {
-		ProductRepository db =  new ProductRepository();
+		Repository db =  new Repository();
 		Cli cli =  new Cli(db);		
 	}
 }
