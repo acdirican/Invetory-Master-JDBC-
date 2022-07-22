@@ -277,6 +277,7 @@ public class Cli {
 
 	private String help() {
 		return "List of Commands:\n" 
+				
 				+ "help\n" 
 				+ "exit \n" 
 				
@@ -287,7 +288,10 @@ public class Cli {
 				+ "list equals [QUANTITY]\n" 
 				+ "list depleted\n" + "find <NAME>\n"
 				
-				+ "update [product/supplier] [ID]\n" + "fetch <INDEX>\n" 
+				+ "indexof [product/supplier] [INDEX]\n" 
+				+ "get [product/supplier] [ID]\n" 
+				+ "update [product/supplier] [ID]\n" 
+								
 				+ "add [product/supplier]\n" 
 				+ "delete [product/supplier] [ID]\n" 
 				+ "delete_all [product/supplier]  [ID]+\n" 
