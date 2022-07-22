@@ -27,10 +27,12 @@ public class Repository {
 	static final String ERROR = "Database error!";
 	
 	private Connection connection;
+	
 	private ProductRepository productRepository;
 	private SupplierRepository supplierRepository;
 	
 	public boolean connect() throws SQLException {
+		
 		String myDriver = "com.mysql.cj.jdbc.Driver";
 	    String myUrl = "jdbc:mysql://localhost:3306/inventorymaster_db";
 	    String myUser = "root";
@@ -97,9 +99,10 @@ public class Repository {
 			joiner.add("UserName: " + dbmd.getUserName());
 			joiner.add("Database Product Name: " + dbmd.getDatabaseProductName());
 			joiner.add("Database Product Version: " + dbmd.getDatabaseProductVersion());
-
+	
 			joiner.add("");
 			joiner.add(metaData("product"));
+			joiner.add("");
 			joiner.add(metaData("supplier"));
 			
 		} catch (SQLException e) {
