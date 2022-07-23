@@ -1,4 +1,13 @@
-com\acdirican\inventorymaster\db\DB.class
+com\acdirican\inventorymaster\model\Supplier.class
+com\acdirican\inventorymaster\cli\Utils.class
+com\acdirican\inventorymaster\cli\ProductCli.class
+com\acdirican\inventorymaster\cli\Command.class
+com\acdirican\inventorymaster\model\Product.class
+com\acdirican\inventorymaster\cli\SupplierCli.class
 com\acdirican\inventorymaster\cli\Cli.class
-com\acdirican\inventorymaster\entities\Product.class
-com\acdirican\inventorymaster\Main.class
+com\acdirican\inventorymaster\repository\AbstracyRepository.class
+com\acdirican\inventorymaster\cli\AbstractCLi.class
+com\acdirican\inventorymaster\repository\SupplierRepository.class
+com\acdirican\inventorymaster\main\Main.class
+com\acdirican\inventorymaster\repository\ProductRepository.class
+com\acdirican\inventorymaster\repository\Repository.class

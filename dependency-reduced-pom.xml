@@ -20,7 +20,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.acdirican.inventorymaster.Main</mainClass>
+                  <mainClass>com.acdirican.inventorymaster.main.Main</mainClass>
                 </transformer>
               </transformers>
             </configuration>
